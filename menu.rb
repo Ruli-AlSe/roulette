@@ -1,8 +1,6 @@
 class Menu
 
-  def betting_strategies
-    p 'Choose an option...'
-
+  def bettings
     puts "\n INSIDE BETS\n"
     puts "\t 1.- Straight bet\n"
     puts "\t 2.- Split bet\n"
@@ -27,6 +25,8 @@ class Menu
     puts "\t 17.- 1-3-2-6 System\n"
     puts "\t 18.- Cancellation\n"
 
-    puts "\tQuit\n"
+    puts "\nTo skip the game write: Quit\n"
+
+    print "\n --------------------- Choose one: "
   end
 end
