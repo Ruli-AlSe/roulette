@@ -23,7 +23,7 @@ if initial_budget >= 5
 end
 
 menu = Menu.new()
-roulette = Roulette.new(initial_budget, default_bet)
+roulette = Roulette::BettingMethods.new(initial_budget, default_bet)
 
 opt = ''
 while(opt.downcase != 'quit')
