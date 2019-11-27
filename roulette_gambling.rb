@@ -1,4 +1,3 @@
-require_relative 'menu'
 require_relative 'roulette'
 
 BETS = [ 'straight_bet', 'split_bet', 'street_bet', 'comer_bet', 'bet_of_five_numbers', 'line_bet',
@@ -22,15 +21,13 @@ if initial_budget >= 5
   end
 end
 
-menu = Menu.new()
 roulette = Roulette::BettingMethods.new(initial_budget, default_bet)
 
 opt = ''
 while(opt.downcase != 'quit')
-  menu.bettings
-  opt = gets.chomp
-
   puts "Your earnings: #{roulette.earnings} \t Your losses: - #{roulette.losses} \t Budget: #{roulette.budget}"
+  roulette.bettings
+  opt = gets.chomp
 
   roulette.public_send(BETS[opt.to_i-1]) if opt.downcase != 'quit'
 end
