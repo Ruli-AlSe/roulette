@@ -31,9 +31,58 @@ module Roulette
       array_bins
     end
 
+    def street_bet_bins(bin)
+      row = get_row_col(bin)
+      array_bins = ROULETTE_TABLE[row.first]
+    end
+
+    def line_bet_bins(bin)
+      row = get_row_col(bin)
+      array_bins = [ROULETTE_TABLE[row.first]]
+      array_bins.append( ROULETTE_TABLE[row.first-1] ) if valid_position?(row.first-1)
+      array_bins.append( ROULETTE_TABLE[row.first+1] ) if valid_position?(row.first+1)
+      array_bins
+    end
+
+    def number_ranges_bins
+      array_bins = []
+      3.times do |i|
+        array_bins.append(4.times.map { |j| ROULETTE_TABLE[(4*i+j+1)] }.flatten)
+      end
+      array_bins
+    end
+
+    def number_column_bins
+      array_bins = []
+      3.times do |i|
+        array_bins.append(12.times.map { |j| ROULETTE_TABLE[j+1][i] })
+      end
+      array_bins
+    end
+
+    def low_high_bins
+      array_bins = []
+      2.times do |i|
+        array_bins.append(6.times.map { |j| ROULETTE_TABLE[(6*i+j+1)] }.flatten)
+      end
+      array_bins
+    end
+
+    def red_black_bins(color)
+      COLOR_BINS.each_pair.map { |key, val| key if val == color }.compact
+    end
+
+    def odd_even_bins(opt)
+      if opt == 'e'
+        return COLOR_BINS.each_key.map { |key| key if key.to_i%2 == 0 && key.to_i != 0 }.compact
+      end
+
+      COLOR_BINS.each_key.map { |key| key if key.to_i%2 != 0 }.compact
+    end
+
   private
 
-    def valid_position?(row, col)
+    def valid_position?(row, col = 0)
       row.positive? && row < 13 && col >= 0 && col < 3
     end
 

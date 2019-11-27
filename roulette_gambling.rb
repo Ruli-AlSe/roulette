@@ -1,7 +1,7 @@
 require_relative 'roulette'
 
 BETS = [ 'straight_bet', 'split_bet', 'street_bet', 'comer_bet', 'bet_of_five_numbers', 'line_bet',
-         'number_ranges', 'number_columns', 'low', 'high', 'red', 'black', 'odd', 'even' ]
+         'number_ranges', 'number_columns', 'low_high', 'red_black', 'odd_even' ]
 
 p 'Roulette Gambling'
 p 'NOTE: The initial budget will be $1,000 dollars if you do not type one'
