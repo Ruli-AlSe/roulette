@@ -28,5 +28,18 @@ while opt.downcase != 'quit'
   roulette.bettings
   opt = gets.chomp
 
-  roulette.public_send(BETS[opt.to_i - 1]) if opt.downcase != 'quit'
+  if opt.match?(/^help/)
+    opt = opt.split.last
+    if opt.to_i.positive? && opt.to_i < 11
+      roulette.public_send('help_' + BETS[opt.to_i - 1])
+    else
+      puts 'Write a correct number to help'
+    end
+  elsif opt.to_i.positive? && opt.to_i < 11
+    roulette.public_send(BETS[opt.to_i - 1])
+  elsif opt == 'quit'
+    puts "Good bye! See you later...\n\n"
+  else
+    puts "Invalid option! Try again...\n\n"
+  end
 end

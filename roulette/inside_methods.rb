@@ -67,7 +67,7 @@ module Roulette
       bin1 = write_bin
       options, line = first_line_with_options(bin1.to_i)
 
-      opt = options.count == 3 ? choose_option : '1'
+      opt = options.count == 3 ? choose_option(options) : '1'
       bins = line + options[opt.to_i]
 
       print "\nYour line numbers are: #{bins.sort.inspect}\n"
@@ -76,7 +76,8 @@ module Roulette
 
     private
 
-    def choose_option
+    def choose_option(options)
+      puts "Your actual choise: #{options[0]}"
       opt = ''
       while opt.to_i != 1 && opt.to_i != 2
         puts "\nChoose an option... \n1.- #{options[1]} \n2.- #{options[2]}"
