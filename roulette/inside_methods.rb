@@ -1,85 +1,104 @@
+# frozen_string_literal: true
+
 require_relative 'roulette_table_layout'
 
 module Roulette
+  # InsideMethods has inside methods
   module InsideMethods
     include RouletteTableLayout
 
     def straight_bet
       write_bet
-      odds = 35
+      bin = write_bin
+      return run([bin], odds) if bin == '00'
 
-      print "\nWhich bin?: "
-      bin = gets.chomp
-      return run(bin) if bin == '00'
+      bin = if bin.to_i.positive?
+              bin.to_i > 36 ? '36' : bin
+            else
+              '0'
+            end
 
-      if bin.to_i.positive?
-        bin = bin.to_i > 36 ? '36' : bin
-      else
-        bin = '0'
-      end
-
-      run([bin], odds)
+      run([bin], 35)
     end
 
     def split_bet
       write_bet
-      odds = 17
+      bin = write_bin
 
-      bin = '0'
-      while(bin == '00' || bin == '0' || bin.to_i < 1)
-        print "\nWhich bin?: "
-        bin = gets.chomp
-      end
-
-      bin = '36' if bin.to_i > 36
       bins = split_bet_bins(bin.to_i)
 
       print "Your adjacent numbers are: #{bins.inspect}\n"
-      run(bins, odds)
+      run(bins, 17)
     end
 
     def street_bet
       write_bet
-      odds = 11
-
-      bin = '0'
-      while(bin == '00' || bin == '0' || bin.to_i < 1)
-        print "\nWhich bin? : "
-        bin = gets.chomp
-      end
+      bin = write_bin
 
       bin = '36' if bin.to_i > 36
       bins = street_bet_bins(bin.to_i)
 
       print "Your street numbers are: #{bins.inspect}\n"
-      run(bins, odds)
+      run(bins, 11)
     end
 
     def comer_bet
       write_bet
-      odds = 8
-
-      bin = '0'
-      while(bin == '00' || bin == '0' || bin.to_i < 1)
-        print "\nWhich bin? : "
-        bin = gets.chomp
-      end
+      bin = write_bin
 
       bin = '36' if bin.to_i > 36
       bins = street_bet_bins(bin.to_i)
 
       print "Your street numbers are: #{bins.inspect}\n"
-      run(bins, odds)
+      run(bins, 8)
     end
 
     def bet_of_five_numbers
       write_bet
-      odds = 6
 
       bins = ROULETTE_TABLE[0] + ROULETTE_TABLE[1]
 
       print "Your five numbers are: #{bins.inspect}\n"
-      run(bins, odds)
+      run(bins, 6)
+    end
+
+    def line_bet
+      write_bet
+      bin1 = write_bin
+      options, line = first_line_with_options(bin1.to_i)
+
+      opt = options.count == 3 ? choose_option : '1'
+      bins = line + options[opt.to_i]
+
+      print "\nYour line numbers are: #{bins.sort.inspect}\n"
+      run(bins, 5)
+    end
+
+    private
+
+    def choose_option
+      opt = ''
+      while opt.to_i != 1 && opt.to_i != 2
+        puts "\nChoose an option... \n1.- #{options[1]} \n2.- #{options[2]}"
+        opt = gets.chomp
+      end
+      opt
+    end
+
+    def first_line_with_options(bin)
+      options = line_bet_bins(bin)
+      line = ROULETTE_TABLE[get_row_col(bin).first]
+      [options, line]
+    end
+
+    def write_bin
+      bin = '0'
+      while bin.to_i < 1
+        print "\nWrite bin: "
+        bin = gets.chomp
+      end
+      bin = '36' if bin.to_i > 36
+      bin
     end
   end
 end

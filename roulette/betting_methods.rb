@@ -1,12 +1,17 @@
+# frozen_string_literal: true
+
 require_relative 'displayables'
 require_relative 'inside_methods'
 require_relative 'outside_methods'
+require_relative 'betting_strategies'
 
 module Roulette
+  # BettingMethods build all types of methods and strategies for application
   class BettingMethods
     include Displayables
     include InsideMethods
     include OutsideMethods
+    include BettingStrategies
 
     attr_reader :budget, :def_bet, :earnings, :losses
 
@@ -18,15 +23,15 @@ module Roulette
     end
 
     def write_bet
-      while(@def_bet == 0)
-        print "Write your bet: "
+      while @def_bet.zero?
+        print 'Write your bet: '
         @def_bet = gets.chomp.to_i
 
-        if @def_bet.positive?
-          @def_bet = @def_bet > @budget ? 0 : @def_bet
-        else
-          @def_bet = 0
-        end
+        @def_bet = if @def_bet.positive?
+                     @def_bet > @budget ? 0 : @def_bet
+                   else
+                     0
+                   end
       end
     end
 
@@ -34,20 +39,21 @@ module Roulette
       puts '----------- RUNNING... -----------'
       row, col = get_row_col(rand(-1..37))
       rand_bin = ROULETTE_TABLE[row][col]
-      puts "----------- Roulette bin was: #{rand_bin} #{decode_color(COLOR_BINS[rand_bin])}"
+      puts "Roulette bin was: #{rand_bin} #{decode_color(COLOR_BINS[rand_bin])}"
       result(bins, rand_bin, odds)
     end
 
     def decode_color(val)
       return 'Red' if val == 'r'
       return 'Black' if val == 'b'
+
       'Green'
     end
 
     def result(bins, rand_bin, odds)
       if bins.include?(rand_bin)
-        @earnings += @def_bet + @def_bet*odds
-        @budget += @def_bet + @def_bet*odds
+        @earnings += @def_bet + @def_bet * odds
+        @budget += @def_bet + @def_bet * odds
       else
         @losses += @def_bet
         @budget -= @def_bet

@@ -1,38 +1,19 @@
+# frozen_string_literal: true
+
 require_relative 'roulette_table_layout'
 
 module Roulette
+  # InsideMethods has outside methods
   module OutsideMethods
     include RouletteTableLayout
 
-    def line_bet
-      write_bet
-      odds = 5
-
-      bin1 = '0'
-      while(bin1.to_i < 1)
-        print "\nfirst bin? : "
-        bin1 = gets.chomp
+    def write_option(lim)
+      opt = -1
+      while opt.to_i < 1 || opt.to_i > lim
+        print "\noption? : "
+        opt = gets.chomp
       end
-
-      line = ROULETTE_TABLE[get_row_col(bin1.to_i).first]
-      print "FIRST LINE: #{line}"
-      options = line_bet_bins(bin1.to_i)
-
-      if options.count == 3
-        opt = ''
-        puts "\nChoose an option... \n1.- #{options[1]} \n2.- #{options[2]}"
-        while(opt.to_i != 1 && opt.to_i != 2)
-          print "\nsecond bin? : "
-          opt = gets.chomp
-        end
-      else
-        opt = '1'
-      end
-
-      bins = line + options[opt.to_i]
-
-      print "\nYour line numbers are: #{bins.sort.inspect}\n"
-      run(bins, odds)
+      opt
     end
 
     def number_ranges
@@ -40,16 +21,11 @@ module Roulette
       odds = 2
 
       options = number_ranges_bins
-      puts "Choose an option..."
+      puts 'Choose an option...'
       print "1.- #{options[0]} \n2.- #{options[1]} \n3.- #{options[2]}"
+      opt = write_option(3)
 
-      opt = -1
-      while(opt.to_i < 1 || opt.to_i > 3)
-        print "\noption? : "
-        opt = gets.chomp
-      end
-
-      run(options[opt.to_i-1], odds)
+      run(options[opt.to_i - 1], odds)
     end
 
     def number_columns
@@ -57,16 +33,11 @@ module Roulette
       odds = 2
 
       options = number_column_bins
-      puts "Choose an option..."
+      puts 'Choose an option...'
       print "1.- #{options[0]} \n2.- #{options[1]} \n3.- #{options[2]}"
+      opt = write_option(3)
 
-      opt = -1
-      while(opt.to_i < 1 || opt.to_i > 3)
-        print "\noption? : "
-        opt = gets.chomp
-      end
-
-      run(options[opt.to_i-1], odds)
+      run(options[opt.to_i - 1], odds)
     end
 
     def low_high
@@ -74,33 +45,21 @@ module Roulette
       odds = 1
 
       options = low_high_bins
-      puts "Choose an option..."
+      puts 'Choose an option...'
       print "1.- Low: #{options[0]} \n2.- High: #{options[1]}"
+      opt = write_option(2)
 
-      opt = -1
-      while(opt.to_i != 1 && opt.to_i != 2)
-        print "\noption? : "
-        opt = gets.chomp
-      end
-
-      run(options[opt.to_i-1], odds)
+      run(options[opt.to_i - 1], odds)
     end
 
     def red_black
       write_bet
       odds = 1
 
-      puts "Choose an option..."
-      print "1.- Red (r/R) \n2.- Black (b/B)"
+      print "Choose an option...\n1.- Red \n2.- Black"
+      opt = write_option(2)
 
-      opt = ''
-      while(opt.downcase != 'b' && opt.downcase != 'r')
-        print "\noption? : "
-        opt = gets.chomp
-      end
-
-      bins = red_black_bins(opt.downcase)
-
+      bins = red_black_bins(opt.to_i)
       run(bins, odds)
     end
 
@@ -108,17 +67,10 @@ module Roulette
       write_bet
       odds = 1
 
-      puts "Choose an option..."
-      print "1.- Even (e/E) \n2.- Odd (o/O)"
+      print "Choose an option...\n1.- Even \n2.- Odd"
+      opt = write_option(2)
 
-      opt = ''
-      while(opt.downcase != 'e' && opt.downcase != 'o')
-        print "\noption? : "
-        opt = gets.chomp
-      end
-
-      bins = odd_even_bins(opt.downcase)
-
+      bins = odd_even_bins(opt.to_i)
       run(bins, odds)
     end
   end
