@@ -10,7 +10,7 @@ module Roulette
     def write_option(lim)
       opt = -1
       while opt.to_i < 1 || opt.to_i > lim
-        print "\noption? : "
+        print "\noption? : ".yellow
         opt = gets.chomp
       end
       opt
@@ -21,8 +21,8 @@ module Roulette
       odds = 2
 
       options = number_ranges_bins
-      puts 'Choose an option...'
-      print "1.- #{options[0]} \n2.- #{options[1]} \n3.- #{options[2]}"
+      puts 'Choose an option...'.yellow
+      print "1.- #{options[0]} \n2.- #{options[1]} \n3.- #{options[2]}".yellow
       opt = write_option(3)
 
       run(options[opt.to_i - 1], odds)
@@ -33,8 +33,8 @@ module Roulette
       odds = 2
 
       options = number_column_bins
-      puts 'Choose an option...'
-      print "1.- #{options[0]} \n2.- #{options[1]} \n3.- #{options[2]}"
+      puts 'Choose an option...'.yellow
+      print "1.- #{options[0]} \n2.- #{options[1]} \n3.- #{options[2]}".yellow
       opt = write_option(3)
 
       run(options[opt.to_i - 1], odds)
@@ -45,8 +45,8 @@ module Roulette
       odds = 1
 
       options = low_high_bins
-      puts 'Choose an option...'
-      print "1.- Low: #{options[0]} \n2.- High: #{options[1]}"
+      puts 'Choose an option...'.yellow
+      print "1.- Low: #{options[0]} \n2.- High: #{options[1]}".yellow
       opt = write_option(2)
 
       run(options[opt.to_i - 1], odds)
@@ -56,7 +56,7 @@ module Roulette
       write_bet
       odds = 1
 
-      print "Choose an option...\n1.- Red \n2.- Black"
+      print "Choose an option...\n1.- Red \n2.- Black".yellow
       opt = write_option(2)
 
       bins = red_black_bins(opt.to_i)
@@ -67,7 +67,7 @@ module Roulette
       write_bet
       odds = 1
 
-      print "Choose an option...\n1.- Even \n2.- Odd"
+      print "Choose an option...\n1.- Even \n2.- Odd".yellow
       opt = write_option(2)
 
       bins = odd_even_bins(opt.to_i)

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'roulette_table_layout'
+require 'colorize'
 
 module Roulette
   # InsideMethods has inside methods
@@ -27,7 +28,7 @@ module Roulette
 
       bins = split_bet_bins(bin.to_i)
 
-      print "Your adjacent numbers are: #{bins.inspect}\n"
+      print "Your adjacent numbers are: #{bins.inspect}\n".yellow
       run(bins, 17)
     end
 
@@ -38,7 +39,7 @@ module Roulette
       bin = '36' if bin.to_i > 36
       bins = street_bet_bins(bin.to_i)
 
-      print "Your street numbers are: #{bins.inspect}\n"
+      print "Your street numbers are: #{bins.inspect}\n".yellow
       run(bins, 11)
     end
 
@@ -49,7 +50,7 @@ module Roulette
       bin = '36' if bin.to_i > 36
       bins = street_bet_bins(bin.to_i)
 
-      print "Your street numbers are: #{bins.inspect}\n"
+      print "Your street numbers are: #{bins.inspect}\n".yellow
       run(bins, 8)
     end
 
@@ -58,7 +59,7 @@ module Roulette
 
       bins = ROULETTE_TABLE[0] + ROULETTE_TABLE[1]
 
-      print "Your five numbers are: #{bins.inspect}\n"
+      print "Your five numbers are: #{bins.inspect}\n".yellow
       run(bins, 6)
     end
 
@@ -70,17 +71,18 @@ module Roulette
       opt = options.count == 3 ? choose_option(options) : '1'
       bins = line + options[opt.to_i]
 
-      print "\nYour line numbers are: #{bins.sort.inspect}\n"
+      print "\nYour line numbers are: #{bins.sort.inspect}\n".yellow
       run(bins, 5)
     end
 
     private
 
     def choose_option(options)
-      puts "Your actual choise: #{options[0]}"
+      puts "Your actual choice: #{options[0]}".yellow
       opt = ''
       while opt.to_i != 1 && opt.to_i != 2
-        puts "\nChoose an option... \n1.- #{options[1]} \n2.- #{options[2]}"
+        puts "\nChoose an option... \n1.- #{options[1]} \n2.- #{options[2]}".yellow
+        print 'option?: '.yellow
         opt = gets.chomp
       end
       opt
@@ -95,7 +97,7 @@ module Roulette
     def write_bin
       bin = '0'
       while bin.to_i < 1
-        print "\nWrite bin: "
+        print "\nWrite bin: ".yellow
         bin = gets.chomp
       end
       bin = '36' if bin.to_i > 36

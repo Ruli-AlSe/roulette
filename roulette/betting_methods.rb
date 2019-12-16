@@ -24,7 +24,7 @@ module Roulette
 
     def write_bet
       while @def_bet.zero?
-        print 'Write your bet: '
+        print 'Write your bet: '.yellow
         @def_bet = gets.chomp.to_i
 
         @def_bet = if @def_bet.positive?
@@ -36,10 +36,10 @@ module Roulette
     end
 
     def run(bins, odds)
-      puts '----------- RUNNING... -----------'
+      puts "\n\n--------------------------- RUNNING... ---------------------------\n".bold.magenta
       row, col = get_row_col(rand(-1..37))
       rand_bin = ROULETTE_TABLE[row][col]
-      puts "Roulette bin was: #{rand_bin} #{decode_color(COLOR_BINS[rand_bin])}"
+      puts "Roulette bin was: #{rand_bin} #{decode_color(COLOR_BINS[rand_bin])}".bold.magenta
       result(bins, rand_bin, odds)
     end
 
