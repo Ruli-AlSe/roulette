@@ -39,15 +39,18 @@ module Roulette
       puts "\n\n--------------------------- RUNNING... ---------------------------\n".bold.magenta
       row, col = get_row_col(rand(-1..37))
       rand_bin = ROULETTE_TABLE[row][col]
-      puts "Roulette bin was: #{rand_bin} #{decode_color(COLOR_BINS[rand_bin])}".bold.magenta
+      print_table(rand_bin)
+      print "\n\nRoulette bin was: ".bold.yellow
+      color, color_sym = decode_color(COLOR_BINS[rand_bin])
+      puts "#{rand_bin} #{color}".bold.white.colorize(background: color_sym)
       result(bins, rand_bin, odds)
     end
 
     def decode_color(val)
-      return 'Red' if val == 'r'
-      return 'Black' if val == 'b'
+      return ['Red', :red] if val == 'r'
+      return ['Black', :black] if val == 'b'
 
-      'Green'
+      ['Green', :green]
     end
 
     def result(bins, rand_bin, odds)

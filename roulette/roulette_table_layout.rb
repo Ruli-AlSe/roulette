@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'colorize'
+
 module Roulette
   # RouletteTableLayout contains the layouts for the game table
   module RouletteTableLayout
@@ -87,7 +89,27 @@ module Roulette
       COLOR_BINS.each_key.map { |key| key unless key.to_i.even? }.compact
     end
 
+    def print_table(bin)
+      ROULETTE_TABLE.each do |row|
+        print "\n\t\t\t|".bold.yellow
+        row.each do |elem|
+          if elem == bin
+            print " #{elem} |".blink.white.colorize(background: :cyan)
+          else
+            print " #{elem} |".bold.colorize(background: background(elem))
+          end
+        end
+      end
+    end
+
     private
+
+    def background(bin)
+      return :red if COLOR_BINS[bin] == 'r'
+      return :black if COLOR_BINS[bin] == 'b'
+
+      :green
+    end
 
     def valid_position?(row, col = 0)
       row.positive? && row < 13 && col >= 0 && col < 3
