@@ -37,7 +37,7 @@ module Roulette
 
     def run(bins, odds)
       puts "\n\n--------------------------- RUNNING... ---------------------------\n".bold.magenta
-      row, col = get_row_col(rand(-1..37))
+      row, col = get_row_col(rand(0..37))
       rand_bin = ROULETTE_TABLE[row][col]
       print_table(rand_bin)
       print "\n\nRoulette bin was: ".bold.yellow

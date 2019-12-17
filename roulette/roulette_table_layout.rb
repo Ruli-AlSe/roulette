@@ -5,15 +5,13 @@ require 'colorize'
 module Roulette
   # RouletteTableLayout contains the layouts for the game table
   module RouletteTableLayout
-    COLOR_BINS = { '0' => 'g', '00' => 'g', '1' => 'r', '2' => 'b', '3' => 'r',
-                   '4' => 'b', '5' => 'r', '6' => 'b', '7' => 'r', '8' => 'b',
-                   '9' => 'r', '10' => 'b', '11' => 'b', '12' => 'r',
-                   '13' => 'b', '14' => 'r', '15' => 'b', '16' => 'r',
-                   '17' => 'b', '18' => 'r', '19' => 'r', '20' => 'b',
-                   '21' => 'r', '22' => 'b', '23' => 'r', '24' => 'b',
-                   '25' => 'r', '26' => 'b', '27' => 'r', '28' => 'b',
-                   '29' => 'b', '30' => 'r', '31' => 'b', '32' => 'r',
-                   '33' => 'b', '34' => 'r', '35' => 'b', '36' => 'r' }.freeze
+    COLOR_BINS = { '0' => 'g', '00' => 'g', '1' => 'r', '2' => 'b', '3' => 'r', '4' => 'b',
+                   '5' => 'r', '6' => 'b', '7' => 'r', '8' => 'b', '9' => 'r', '10' => 'b',
+                   '11' => 'b', '12' => 'r', '13' => 'b', '14' => 'r', '15' => 'b', '16' => 'r',
+                   '17' => 'b', '18' => 'r', '19' => 'r', '20' => 'b', '21' => 'r', '22' => 'b',
+                   '23' => 'r', '24' => 'b', '25' => 'r', '26' => 'b', '27' => 'r', '28' => 'b',
+                   '29' => 'b', '30' => 'r', '31' => 'b', '32' => 'r', '33' => 'b', '34' => 'r',
+                   '35' => 'b', '36' => 'r' }.freeze
 
     ROULETTE_TABLE = [%w[0 00],
                       %w[1 2 3],
@@ -49,6 +47,16 @@ module Roulette
       array_bins = [ROULETTE_TABLE[row.first]]
       array_bins.append(ROULETTE_TABLE[row.first - 1]) if valid_position?(row.first - 1)
       array_bins.append(ROULETTE_TABLE[row.first + 1]) if valid_position?(row.first + 1)
+      array_bins
+    end
+
+    def comer_bet_bins
+      array_bins = []
+      (1..11).each do |row|
+        2.times do |col|
+          array_bins.append(ROULETTE_TABLE[row][col, 2] + ROULETTE_TABLE[row + 1][col, 2])
+        end
+      end
       array_bins
     end
 

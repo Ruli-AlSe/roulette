@@ -45,13 +45,11 @@ module Roulette
 
     def comer_bet
       write_bet
-      bin = write_bin
+      options = comer_bet_bins
+      opt = choose_option(options, options.count)
 
-      bin = '36' if bin.to_i > 36
-      bins = street_bet_bins(bin.to_i)
-
-      print "Your street numbers are: #{bins.inspect}\n".yellow
-      run(bins, 8)
+      print "\nYour choose was: #{options[opt.to_i - 1]}\n".yellow
+      run(options[opt.to_i - 1], 8)
     end
 
     def bet_of_five_numbers
@@ -68,7 +66,7 @@ module Roulette
       bin1 = write_bin
       options, line = first_line_with_options(bin1.to_i)
 
-      opt = options.count == 3 ? choose_option(options) : '1'
+      opt = options.count == 3 ? choose_option(options, 2, 1) : '1'
       bins = line + options[opt.to_i]
 
       print "\nYour line numbers are: #{bins.sort.inspect}\n".yellow
@@ -77,11 +75,13 @@ module Roulette
 
     private
 
-    def choose_option(options)
-      puts "Your actual choice: #{options[0]}".yellow
+    def choose_option(options, lim, act_opt = 0)
+      puts "Your actual choice: #{options[0]}".yellow if act_opt != 0
       opt = ''
-      while opt.to_i != 1 && opt.to_i != 2
-        puts "\nChoose an option... \n1.- #{options[1]} \n2.- #{options[2]}".yellow
+      while opt.to_i < 1 || opt.to_i > lim
+        puts "\nChoose an option... \n".yellow
+        options.each_with_index { |arr, idx| puts "#{idx + 1}.- #{arr}".yellow } if act_opt == 0
+        puts "1.- #{options[1]} \n2.- #{options[2]}".yellow if act_opt != 0
         print 'option?: '.yellow
         opt = gets.chomp
       end
